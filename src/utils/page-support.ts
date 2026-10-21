@@ -4,7 +4,8 @@ const OBSERVABLE_REQUEST_PROTOCOLS = new Set(['http:', 'https:', 'ws:', 'wss:'])
 export type PageSupport = {
   supported: boolean
   reason: string
-  reasonCode?: 'noPage' | 'browserBuiltin' | 'extensionPage' | 'about' | 'viewSource' | 'devtools' | 'localFile' | 'dataBlob' | 'unsupportedProtocol'
+  reasonCode?:
+    'noPage' | 'browserBuiltin' | 'extensionPage' | 'about' | 'viewSource' | 'devtools' | 'localFile' | 'dataBlob' | 'unsupportedProtocol'
 }
 
 const getProtocol = (url: unknown): string => {
@@ -40,6 +41,7 @@ export const checkPageSupport = (url: unknown): PageSupport => {
   }
   if (protocol === 'file:') return { supported: false, reason: '本地文件页面暂不检测。', reasonCode: 'localFile' }
   if (protocol === 'data:' || protocol === 'blob:') return { supported: false, reason: '当前页面类型不支持检测。', reasonCode: 'dataBlob' }
-  if (!DETECTABLE_PROTOCOLS.has(protocol)) return { supported: false, reason: '当前页面类型不支持检测。', reasonCode: 'unsupportedProtocol' }
+  if (!DETECTABLE_PROTOCOLS.has(protocol))
+    return { supported: false, reason: '当前页面类型不支持检测。', reasonCode: 'unsupportedProtocol' }
   return { supported: true, reason: '' }
 }

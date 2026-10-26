@@ -219,3 +219,15 @@ test('sitemap drops noindex pages and adds x-default to translated groups', () =
   assert.deepEqual(items[1].links.at(-1), { lang: 'x-default', url: 'guide/install.html' })
   assert.equal(links.length, 2)
 })
+
+// 导航和侧栏配置会原样内联进每个页面，Google 会把其中不带 .html 的路径当成另一个网址抓取
+test('nav and sidebar links use the canonical .html URLs', async () => {
+  const config = await readFile(new URL('../docs/.vitepress/config.ts', import.meta.url), 'utf8')
+  const links = [...config.matchAll(/link: '(\/[^']*)'/g)].map(match => match[1])
+
+  assert.ok(links.length > 0)
+  assert.deepEqual(
+    links.filter(link => !/(\.html|\/)$/.test(link)),
+    []
+  )
+})

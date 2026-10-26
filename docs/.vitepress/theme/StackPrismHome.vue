@@ -63,7 +63,7 @@ const localizedLabels: Record<string, Partial<Copy>> = {
 const copy = computed(() => ({ ...fallback, ...(copies[lang.value] || {}), ...(localized[lang.value] || {}), ...(localizedLabels[lang.value] || {}) }) as Copy)
 const localePrefix = computed(() => (lang.value === 'zh-CN' ? '' : `/${lang.value}`))
 const docsLink = computed(() => `${localePrefix.value}/guide/`)
-const installLink = computed(() => `${localePrefix.value}/guide/install`)
+const installLink = computed(() => `${localePrefix.value}/guide/install.html`)
 const installMenuTitle = computed(() => ({
   'zh-CN': '选择浏览器商店',
   en: 'Choose a browser store',
